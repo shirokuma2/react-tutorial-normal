@@ -14,41 +14,82 @@ import reportWebVitals from "./reportWebVitals";
 //   }
 // }
 
-const Square = (props) => {
+// const Square = (props) => {
+//   return (
+//     <button className="square" onClick={props.onClick}>
+//       {props.value}
+//     </button>
+//   );
+// };
+
+function Square(props) {
   return (
-    <button className="square" onClick={() => props.onClick()}>
+    <button className="square" onClick={props.onClick}>
       {props.value}
     </button>
   );
+}
+
+const calculateWinner = (squares) => {
+  // 勝ちと判定する一列を全パターン用意
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    // 勝ちパターンのどれか一つでもすべて同じ記号の場合は勝利となる
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
 };
 
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      square: Array(9).fill(null),
+      squares: Array(9).fill(null),
+      xIsNext: true,
     };
   }
 
   handleClick(i) {
     // 配列をコピーするために.slice()
-    const squares = this.state.square.slice();
-
-    squares[i] = "x";
-    this.setState({ squares });
+    const squares = this.state.squares.slice();
+    squares[i] = this.state.xIsNext ? "x" : "o";
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
   }
 
   renderSquare(i) {
     return (
       <Square
-        value={this.state.square[i]}
+        value={this.state.squares[i]}
         onClick={() => this.handleClick(i)}
       />
     );
   }
 
   render() {
-    const status = "Next player: X";
+    // const status = `Next player: ${this.state.xIsNext ? "x" : "o"}`;
+
+    const winner = calculateWinner(this.state.squares);
+    let status;
+    if (winner) {
+      status = "Winner: " + winner;
+    } else {
+      status = "Next player: " + (this.state.xIsNext ? "X" : "O");
+    }
 
     return (
       <div>
