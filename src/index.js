@@ -5,25 +5,38 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 class Square extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
-
   render() {
     return (
-      <button className="square" onClick={() => this.setState({ value: "x" })}>
-        {this.state.value}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      square: Array(9).fill(null),
+    };
+  }
+
+  handleClick(i) {
+    // 配列をコピーするために.slice()
+    const squares = this.state.square.slice();
+
+    squares[i] = "x";
+    this.setState({ squares });
+  }
+
   renderSquare(i) {
-    return <Square rom={i} />;
+    return (
+      <Square
+        value={this.state.square[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    );
   }
 
   render() {
