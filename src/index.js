@@ -4,31 +4,13 @@ import "./index.css";
 // import App from './App';
 import reportWebVitals from "./reportWebVitals";
 
-// class Square extends React.Component {
-//   render() {
-//     return (
-//       <button className="square" onClick={() => this.props.onClick()}>
-//         {this.props.value}
-//       </button>
-//     );
-//   }
-// }
-
-// const Square = (props) => {
-//   return (
-//     <button className="square" onClick={props.onClick}>
-//       {props.value}
-//     </button>
-//   );
-// };
-
-function Square(props) {
+const Square = (props) => {
   return (
     <button className="square" onClick={props.onClick}>
       {props.value}
     </button>
   );
-}
+};
 
 const calculateWinner = (squares) => {
   // 勝ちと判定する一列を全パターン用意
@@ -63,16 +45,6 @@ class Board extends React.Component {
   }
 
   render() {
-    // const status = `Next player: ${this.state.xIsNext ? "x" : "o"}`;
-
-    // const winner = calculateWinner(this.state.squares);
-    // let status;
-    // if (winner) {
-    //   status = "Winner: " + winner;
-    // } else {
-    //   status = "Next player: " + (this.state.xIsNext ? "X" : "O");
-    // }
-
     return (
       <div>
         <div className="board-row">
